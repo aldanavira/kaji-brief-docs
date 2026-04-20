@@ -22,7 +22,7 @@ const Index = () => {
       <Nav />
       <Hero />
       <Problem />
-      <Solutions id="solusi" />
+      <div id="solusi"><Solutions /></div>
       <HowItWorks />
       <Comparison />
       <Persona />
