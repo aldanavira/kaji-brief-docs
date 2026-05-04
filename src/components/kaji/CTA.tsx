@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const CTA = () => (
   <section className="py-24 md:py-32">
@@ -16,9 +17,11 @@ export const CTA = () => (
             Tanpa kartu kredit. Tanpa instalasi. Tanyakan apa pun, dapatkan jawaban dalam hitungan detik.
           </p>
           <div className="mt-10 flex flex-wrap gap-3 justify-center">
-            <Button size="lg" variant="secondary" className="rounded-full h-12 px-6 group">
-              Coba Kaji gratis
-              <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            <Button size="lg" variant="secondary" className="rounded-full h-12 px-6 group" asChild>
+              <Link to="/auth">
+                Coba Kaji gratis
+                <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </Button>
             <Button size="lg" variant="outline" className="rounded-full h-12 px-6 bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
               Jadwalkan demo
