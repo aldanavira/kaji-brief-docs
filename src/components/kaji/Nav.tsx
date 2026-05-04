@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Menu, Scale } from "lucide-react";
+import { Menu, Scale, LogOut } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Nav = () => {
   const [open, setOpen] = useState(false);
+  const { user, signOut } = useAuth();
   const links = [
     { label: "Fitur", href: "#fitur" },
     { label: "Solusi", href: "#solusi" },
@@ -14,12 +17,12 @@ export const Nav = () => {
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border/60">
       <div className="container flex h-16 items-center justify-between">
-        <a href="#" className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight">
+        <Link to="/" className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground">
             <Scale className="h-4 w-4" />
           </span>
           <span>Kaji<span className="text-accent">.id</span></span>
-        </a>
+        </Link>
         <nav className="hidden md:flex items-center gap-8 text-sm">
           {links.map(l => (
             <a key={l.href} href={l.href} className="text-muted-foreground hover:text-foreground transition-colors">
@@ -28,8 +31,19 @@ export const Nav = () => {
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-2">
-          <Button variant="ghost" size="sm">Masuk</Button>
-          <Button size="sm" className="rounded-full">Coba Gratis</Button>
+          {user ? (
+            <>
+              <span className="text-sm text-muted-foreground max-w-[180px] truncate">{user.email}</span>
+              <Button variant="ghost" size="sm" onClick={signOut}>
+                <LogOut className="h-4 w-4" /> Keluar
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" asChild><Link to="/auth">Masuk</Link></Button>
+              <Button size="sm" className="rounded-full" asChild><Link to="/auth">Coba Gratis</Link></Button>
+            </>
+          )}
         </div>
         <button className="md:hidden p-2" onClick={() => setOpen(!open)} aria-label="Menu">
           <Menu className="h-5 w-5" />
@@ -41,7 +55,11 @@ export const Nav = () => {
             {links.map(l => (
               <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="py-2 text-sm">{l.label}</a>
             ))}
-            <Button className="rounded-full mt-2">Coba Gratis</Button>
+            {user ? (
+              <Button className="rounded-full mt-2" onClick={() => { signOut(); setOpen(false); }}>Keluar</Button>
+            ) : (
+              <Button className="rounded-full mt-2" asChild><Link to="/auth" onClick={() => setOpen(false)}>Coba Gratis</Link></Button>
+            )}
           </div>
         </div>
       )}
